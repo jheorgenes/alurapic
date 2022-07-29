@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { TokenService } from '../token/token.service';
 import { User } from './user';
 import * as jtw_decode from 'jwt-decode';
@@ -7,7 +7,8 @@ import * as jtw_decode from 'jwt-decode';
 @Injectable({providedIn: 'root'})
 export class UserService {
 
-  private userSubject = new Subject<User>();
+  private userSubject = new BehaviorSubject<User>(null);
+
   constructor(private tokenService: TokenService){
     this.tokenService.hasToken() && this.decodeAndNotify();
   }
@@ -22,8 +23,8 @@ export class UserService {
   }
 
   private decodeAndNotify(){
-    const token = this.tokenService.getToken();
+    const token = this.tokenService.getToken(); //Pega o token do LocalStorage
     const user = jtw_decode(token) as User; //Quando decodificado, já deixa no formato da Interface User
-    this.userSubject.next(user);
+    this.userSubject.next(user); //Faz o subscribe com os dados do usuário
   }
 }
