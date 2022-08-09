@@ -16,7 +16,7 @@ export class UserNotTakenValidatorService{
                 .pipe(debounceTime(300)) //Evita de ficar buscando a cada letra digitada
                 .pipe(switchMap(userName => this.signUpService.checkUserNameTaken(userName))) //Consultando a api
                 .pipe(map(isTaken => isTaken ? { userNameTaken: true } : null)) //Retornando um objeto js userNameTaken=true ou null
-                .pipe(first()); //Informa que o observable completou e retorna o primeiro objeto capturado.
+                .pipe(first()); //Informa que o observable completou e retorna o primeiro objeto Emitido.
     }
   }
 }
